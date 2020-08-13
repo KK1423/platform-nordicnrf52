@@ -1,0 +1,46 @@
+{
+  "build": {
+    "arduino":{
+      "ldscript": "nrf52832_s132_v6.ld"
+    },
+    "core": "nRF5",
+    "cpu": "cortex-m4",
+    "extra_flags": "-DNRF52832_XXAA -DNRF52",
+    "f_cpu": "64000000L",
+    "mcu": "nrf52832",
+    "variant": "RaveMask_nrf52832",
+    "bsp": {
+      "name": "adafruit",
+      "version" : "0.19.1"
+    },
+    "softdevice": {
+      "sd_flags": "-DS132",
+      "sd_name": "s132",
+      "sd_version": "6.1.1",
+      "sd_fwid": "0x00B7"
+    }
+  },
+  "connectivity": [
+    "bluetooth"
+  ],
+  "debug": {
+    "jlink_device": "nRF52832_xxAA",
+    "svd_path": "nrf52.svd"
+  },
+  "frameworks": [
+    "arduino"
+  ],
+  "name": "Rave Mask Controller Board",
+  "upload": {
+    "maximum_ram_size": 65536,
+    "maximum_size": 524288,
+    "speed": 115200,
+    "protocol": "nrfjprog",
+    "protocols": [
+      "jlink",
+      "nrfjprog",
+      "nrfutil",
+      "stlink"
+    ]
+  }
+}
