@@ -40,7 +40,7 @@ assert isdir(CORE_DIR)
 NORDIC_DIR = join(CORE_DIR, "nordic")
 assert isdir(NORDIC_DIR)
 
-default_bsp_version = "0.19.0"
+default_bsp_version = "0.20.5"
 default_softdevice_version = "6.1.1"
 default_bootloader_version = "0.3.2"
 
@@ -104,7 +104,7 @@ env.Append(
     ],
 
     CPPPATH=[
-        join(CORE_DIR, "cmsis", "include"),
+        join(CORE_DIR, "cmsis", "Core", "Include"),
         join(NORDIC_DIR),
         join(NORDIC_DIR, "nrfx"),
         join(NORDIC_DIR, "nrfx", "hal"),
