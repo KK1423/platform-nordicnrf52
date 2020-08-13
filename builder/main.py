@@ -208,9 +208,9 @@ else:
         target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     else:
         if "DFUBOOTHEX" in env:
-            target_firm = env.SignBin(
-                join("$BUILD_DIR", "${PROGNAME}"),
-                env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf))
+            target_bin = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+            target_firm = [env.SignBin(join("$BUILD_DIR", "${PROGNAME}"),target_bin),
+                          target_bin]
         else:
             target_firm = env.ElfToHex(
                 join("$BUILD_DIR", "${PROGNAME}"), target_elf)
@@ -360,9 +360,9 @@ elif upload_protocol.startswith("jlink"):
         script_path = join(build_dir, "upload.jlink")
         commands = [ "h" ]
         if "DFUBOOTHEX" in env:
-            commands.append("loadbin %s,%s" % (str(source).replace("_signature", ""),
+            commands.append("loadbin %s,%s" % (source[0],
                 env.BoardConfig().get("upload.offset_address", "0x26000")))
-            commands.append("loadbin %s,%s" % (source, env.get("BOOT_SETTING_ADDR")))
+            commands.append("loadbin %s,%s" % (source[1], env.get("BOOT_SETTING_ADDR")))
         else:
             commands.append("loadbin %s,%s" % (source, env.BoardConfig().get(
                 "upload.offset_address", "0x0")))
@@ -383,9 +383,9 @@ elif upload_protocol.startswith("jlink"):
             "-if", ("jtag" if upload_protocol == "jlink-jtag" else "swd"),
             "-autoconnect", "1"
         ],
-        UPLOADCMD='$UPLOADER $UPLOADERFLAGS -CommanderScript "${__jlink_cmd_script(__env__, SOURCE)}"'
+        UPLOADCMD='$UPLOADER $UPLOADERFLAGS -CommanderScript "${__jlink_cmd_script(__env__, SOURCES)}"'
     )
-    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCE")]
+    upload_actions = [env.VerboseAction("$UPLOADCMD", "Uploading $SOURCES")]
 
 elif upload_protocol in debug_tools:
     openocd_args = [
