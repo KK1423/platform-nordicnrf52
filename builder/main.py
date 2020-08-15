@@ -208,9 +208,8 @@ else:
         target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
     else:
         if "DFUBOOTHEX" in env:
-            target_bin = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
-            target_firm = [env.SignBin(join("$BUILD_DIR", "${PROGNAME}"),target_bin),
-                          target_bin]
+            target_firm = env.ElfToBin(join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+            target_firm.extend(env.SignBin(join("$BUILD_DIR", "${PROGNAME}"),target_firm))
         else:
             target_firm = env.ElfToHex(
                 join("$BUILD_DIR", "${PROGNAME}"), target_elf)
